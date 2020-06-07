@@ -52,13 +52,13 @@ Would_you_recommend_Centerstone_to_your_family_and_friends = marking_download_5_
 #In the future how would you prefer to receive services from Centerstone? (Select all those that apply)
 #1, Telehealth video | 2, Telephone | 3, In-person
 televideo = marking_download_5_30_20$In.the.future..how.would.you.prefer.to.receive.services.from.Centerstone...select.all.that.apply...choice.Telehealth.video.
-televideo = recode(televideo, "Checked"= "Telehealth video", "Unchecked" = "0")
+televideo = dplyr::recode(televideo, "Checked" = "Telehealth video", "Unchecked" = "0")
 
 telephone = marking_download_5_30_20$In.the.future..how.would.you.prefer.to.receive.services.from.Centerstone...select.all.that.apply...choice.Telephone.
-telephone = recode(telephone, "Checked"= "Telephone", "Unchecked" = "0")
+telephone = dplyr::recode(telephone, "Checked"= "Telephone", "Unchecked" = "0")
 
 in_person = marking_download_5_30_20$In.the.future..how.would.you.prefer.to.receive.services.from.Centerstone...select.all.that.apply...choice.In.person.
-in_person = recode(in_person, "Checked"= "In-person", "Unchecked" = "0")
+in_person = dplyr::recode(in_person, "Checked"= "In-person", "Unchecked" = "0")
 
 prefer = paste0(televideo, ",", telephone, ",", in_person)
 prefer = gsub("0", "", prefer)
