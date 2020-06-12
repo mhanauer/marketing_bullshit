@@ -22,10 +22,10 @@ library(lubridate)
 library(dplyr)
 library(prettyR)
 setwd("T:/CRI_Research/telehealth_evaluation/data_codebooks/satisfaction")
-zoom_download = read.csv("TelehealthZoomclient_DATA_LABELS_2020-06-05_1436.csv", header = TRUE)
+zoom_download = read.csv("TelehealthZoomclient_DATA_LABELS_2020-06-12_0924.csv", header = TRUE)
 zoom_download$platform = rep("zoom", dim(zoom_download)[1])
 
-snap_download = read.csv("TelehealthSnapMDclie_DATA_LABELS_2020-06-10_1154.csv", header = TRUE)
+snap_download = read.csv("TelehealthSnapMDclie_DATA_LABELS_2020-06-12_0924.csv", header = TRUE)
 snap_download$platform = rep("snap", dim(snap_download)[1])
 
 colnames(snap_download)[4] = "In.the.Zoom.session.you.just.completed.with.your.Centerstone.provider..did.you.use.audio.only.or.audio.and.video."
@@ -43,7 +43,7 @@ snap_mention_time_fill = unlist(snap_mention_time_fill)
 snap_mention_time_fill = mdy(snap_mention_time_fill)
 snap_download$Survey.Timestamp = snap_mention_time_fill
 ### Now fix for Zoom
-marking_download$mention_time
+
 
 zoom_mention_time_fill = list()
 
@@ -112,17 +112,18 @@ marking_download
 describe.factor(marking_download$platform)
 
 
-marking_download = subset(marking_download, mention_time <= "2020-05-31")
+marking_download = subset(marking_download, mention_time <= "2020-06-11")
 
 
 library(stringr)
 mention_time_dat_frame = str_split_fixed(marking_download$mention_time, "-", 3)
+tail(mention_time_dat_frame, 30)
 colnames(mention_time_dat_frame) = c("Year", "Month", "Day") 
-mention_time_dat_frame
+tail(mention_time_dat_frame,20)
 mention_time_dat_frame = data.frame(mention_time_dat_frame)
 marking_download$mention_time = paste0(mention_time_dat_frame$Day, "-", mention_time_dat_frame$Month, "-", mention_time_dat_frame$Year)
-marking_download$mention_time = as.factor(marking_download$mention_time)
-marking_download$How_would_you_rate_your_overall_experience_with_telehealth_at_Centerstone
+#marking_download$mention_time = as.factor(marking_download$mention_time)
+
 
 marking_download$How_would_you_rate_your_overall_experience_with_telehealth_at_Centerstone = gsub("\\D", "", marking_download$How_would_you_rate_your_overall_experience_with_telehealth_at_Centerstone)
 marking_download$How_would_you_rate_your_overall_experience_with_telehealth_at_Centerstone  = as.numeric(marking_download$How_would_you_rate_your_overall_experience_with_telehealth_at_Centerstone)
@@ -132,7 +133,10 @@ marking_download$How_would_you_rate_your_overall_experience_with_telehealth_at_C
 colnames(marking_download) = c("Site_id", "Entity_id", "Survey_ID", "mention time", "Patient Email", "Patient First_Name", "Patient Last Name", "Patient Phone", "Please specify which state:", "What is your age?", "What is your gender identity?", "What is your racial identity?", "Which state do you currently live in?", "For you personally what are the barriers of using telehealth relative to in-person services?", "For you personally what are the benefits of using telehealth services relative to in-person services?", "Are you a new or returning client?", "How would you rate your overall experience with telehealth at Centerstone?", "In the future how would you prefer to receive services from Centerstone? (Select all those that apply)", "May we follow up with you about your feedback for additional detail?", "The use of technology accessed through CenterstoneÂ has helped me reduce my substance use.", "The use of technology accessed throughÂ CenterstoneÂ has helped me communicate with my provider.", "The use of technology accessed throughÂ CenterstoneÂ has helped me manage my mental health symptoms.", "The use of technology accessed throughÂ CenterstoneÂ has helped me support my mental health recovery.", "Were the instructions for how to access your appointment online clear?", "Were you satisfied with how quickly you got an appointment?", "Would you recommend Centerstone to your family and friends?", "platform")
 describe.factor(marking_download$platform)
 
+### Add quates back fro mention time so excel reads it differently
+marking_download$`mention time` = paste0("'",marking_download$`mention time`,"'")
 
-write.csv(marking_download, "marking_download_5_31_20.csv", row.names = FALSE)
+
+write.csv(marking_download, "marking_download_6_11_20.csv", row.names = FALSE)
 ```
 
