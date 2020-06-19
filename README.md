@@ -22,10 +22,10 @@ library(lubridate)
 library(dplyr)
 library(prettyR)
 setwd("T:/CRI_Research/telehealth_evaluation/data_codebooks/satisfaction")
-zoom_download = read.csv("TelehealthZoomclient_DATA_LABELS_2020-06-12_0924.csv", header = TRUE)
+zoom_download = read.csv("TelehealthZoomclient_DATA_LABELS_2020-06-19_0613.csv", header = TRUE)
 zoom_download$platform = rep("zoom", dim(zoom_download)[1])
 
-snap_download = read.csv("TelehealthSnapMDclie_DATA_LABELS_2020-06-12_0924.csv", header = TRUE)
+snap_download = read.csv("TelehealthSnapMDclie_DATA_LABELS_2020-06-19_0614.csv", header = TRUE)
 snap_download$platform = rep("snap", dim(snap_download)[1])
 
 colnames(snap_download)[4] = "In.the.Zoom.session.you.just.completed.with.your.Centerstone.provider..did.you.use.audio.only.or.audio.and.video."
@@ -40,7 +40,7 @@ for(i in 1:dim(snap_download)[1]){
  snap_mention_time_fill[[i]] =  strsplit(snap_download$Survey.Timestamp[[i]]," ")[[1]][1]
 }
 snap_mention_time_fill = unlist(snap_mention_time_fill)
-snap_mention_time_fill = mdy(snap_mention_time_fill)
+snap_mention_time_fill = ymd(snap_mention_time_fill)
 snap_download$Survey.Timestamp = snap_mention_time_fill
 ### Now fix for Zoom
 
@@ -58,11 +58,7 @@ zoom_download$Survey.Timestamp = zoom_mention_time_fill
 ### Now combine
 marking_download = rbind(zoom_download, snap_download)
 marking_download$Survey.Timestamp
-
-#marking_download$Survey.Timestamp= ifelse(marking_download$Survey.Timestamp ==  "[not", "[not completed]", marking_download$Survey.Timestamp)
-
-#test = subset(marking_download, platform == "snap")
-#test$Survey.Timestamp
+describe.factor(marking_download$platform)
 
 
 Site_id = rep(NA, dim(marking_download)[1])
@@ -112,7 +108,7 @@ marking_download
 describe.factor(marking_download$platform)
 
 
-marking_download = subset(marking_download, mention_time <= "2020-06-11")
+marking_download = subset(marking_download, mention_time <= "2020-06-18")
 
 
 library(stringr)
@@ -137,6 +133,6 @@ describe.factor(marking_download$platform)
 marking_download$`mention time` = paste0("'",marking_download$`mention time`,"'")
 
 
-write.csv(marking_download, "marking_download_6_11_20.csv", row.names = FALSE)
+write.csv(marking_download, "marking_download_6_18_20.csv", row.names = FALSE)
 ```
 
