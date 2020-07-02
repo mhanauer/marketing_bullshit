@@ -22,10 +22,10 @@ library(lubridate)
 library(dplyr)
 library(prettyR)
 setwd("T:/CRI_Research/telehealth_evaluation/data_codebooks/satisfaction")
-zoom_download = read.csv("TelehealthZoomclient_DATA_LABELS_2020-06-19_0613.csv", header = TRUE)
+zoom_download = read.csv("TelehealthZoomclient_DATA_LABELS_2020-07-02_1034.csv", header = TRUE)
 zoom_download$platform = rep("zoom", dim(zoom_download)[1])
 
-snap_download = read.csv("TelehealthSnapMDclie_DATA_LABELS_2020-06-19_0614.csv", header = TRUE)
+snap_download = read.csv("TelehealthSnapMDclie_DATA_LABELS_2020-07-02_1035.csv", header = TRUE)
 snap_download$platform = rep("snap", dim(snap_download)[1])
 
 colnames(snap_download)[4] = "In.the.Zoom.session.you.just.completed.with.your.Centerstone.provider..did.you.use.audio.only.or.audio.and.video."
@@ -108,7 +108,7 @@ marking_download
 describe.factor(marking_download$platform)
 
 
-marking_download = subset(marking_download, mention_time <= "2020-06-18")
+marking_download = subset(marking_download, mention_time <= "2020-06-30")
 
 
 library(stringr)
@@ -133,6 +133,6 @@ describe.factor(marking_download$platform)
 marking_download$`mention time` = paste0("'",marking_download$`mention time`,"'")
 
 
-write.csv(marking_download, "marking_download_6_18_20.csv", row.names = FALSE)
+write.csv(marking_download, "marking_download_6_30_20.csv", row.names = FALSE)
 ```
 
